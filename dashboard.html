@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PriceRiley CRM Dashboard</title>
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-484920171');
+    </script>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- DataTables -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #e74c3c;
+            --accent-color: #3498db;
+            --dark-color: #34495e;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+        }
+        
+        .sidebar {
+            background: linear-gradient(180deg, var(--primary-color) 0%, #1a252f 100%);
+            min-height: 100vh;
+        }
+        
+        .sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+            border-left: 3px solid transparent;
+        }
+        
+        .sidebar .nav-link:hover {
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar .nav-link.active {
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.15);
+            border-left: 3px solid var(--secondary-color);
+        }
+        
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 0.5rem;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+            transition: transform 0.2s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            background-color: #fff;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            font-weight: 600;
+        }
+        
+        .bg-primary {
+            background-color: var(--primary-color) !important;
+        }
+        
+        .bg-danger {
+            background-color: var(--secondary-color) !important;
+        }
+        
+        .bg-info {
+            background-color: var(--accent-color) !important;
+        }
+        
+        .stat-card {
+            border-left: 0.25rem solid;
+        }
+        
+        .stat-card.primary {
+            border-left-color: var(--primary-color);
+        }
+        
+        .stat-card.danger {
+            border-left-color: var(--secondary-color);
+        }
+        
+        .stat-card.info {
+            border-left-color: var(--accent-color);
+        }
+        
+        .stat-card.warning {
+            border-left-color: #f39c12;
+        }
+        
+        .logo-container {
+            padding: 1.5rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .logo-img {
+            max-height: 40px;
+        }
+        
+        .user-dropdown img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+        
+        #realTimeVisitors {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        .property-img {
+            height: 120px;
+            object-fit: cover;
+            border-radius: 0.25rem;
+        }
+        
+        .lead-status-new {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .lead-status-followup {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .lead-status-converted {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+        
+        .lead-status-lost {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 d-md-block sidebar collapse bg-primary text-white p-0">
+                <div class="position-sticky">
+                    <div class="logo-container text-center">
+                        <img src="https://priceriley.co.uk/static/images/logo.png" alt="PriceRiley" class="logo-img">
+                    </div>
+                    <ul class="nav flex-column pt-3">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">
+                                <i class="fas fa-tachometer-alt"></i>
+                                Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-home"></i>
+                                Properties
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-users"></i>
+                                Leads
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-calendar-alt"></i>
+                                Appointments
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-chart-line"></i>
+                                Analytics
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-envelope"></i>
+                                Campaigns
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-cog"></i>
+                                Settings
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">CRM Dashboard</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="btn-group me-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">
+                                <i class="fas fa-download"></i> Export
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary">
+                                <i class="fas fa-print"></i> Print
+                            </button>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-calendar"></i> Last 30 days
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <li><a class="dropdown-item" href="#">Today</a></li>
+                                <li><a class="dropdown-item" href="#">Last 7 days</a></li>
+                                <li><a class="dropdown-item" href="#">Last 30 days</a></li>
+                                <li><a class="dropdown-item" href="#">This month</a></li>
+                                <li><a class="dropdown-item" href="#">Custom range</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="row mb-4">
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card stat-card primary h-100">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                            Website Visitors</div>
+                                        <div class="h2 mb-0 font-weight-bold text-gray-800" id="totalVisitors">0</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-users fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card stat-card danger h-100">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                            New Leads</div>
+                                        <div class="h2 mb-0 font-weight-bold text-gray-800" id="newLeads">0</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-user-plus fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card stat-card info h-100">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                            Appointments</div>
+                                        <div class="h2 mb-0 font-weight-bold text-gray-800" id="appointments">0</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-calendar-check fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card stat-card warning h-100">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                            Conversion Rate</div>
+                                        <div class="h2 mb-0 font-weight-bold text-gray-800" id="conversionRate">0%</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-percentage fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="row">
+                    <!-- Traffic Chart -->
+                    <div class="col-xl-8 mb-4">
+                        <div class="card">
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">Website Traffic & Lead Conversion</h6>
+                                <div class="dropdown no-arrow">
+                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end shadow animated--fade-in"
+                                        aria-labelledby="dropdownMenuLink">
+                                        <div class="dropdown-header">Chart Options:</div>
+                                        <a class="dropdown-item" href="#" onclick="updateChartTimeframe('week')">Last 7 days</a>
+                                        <a class="dropdown-item" href="#" onclick="updateChartTimeframe('month')">Last 30 days</a>
+                                        <a class="dropdown-item" href="#" onclick="updateChartTimeframe('year')">Last 12 months</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <canvas id="trafficAndLeadsChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lead Sources -->
+                    <div class="col-xl-4 mb-4">
+                        <div class="card">
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">Lead Sources</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-pie pt-4 pb-2">
+                                    <canvas id="leadSourcesChart"></canvas>
+                                </div>
+                                <div class="mt-4 text-center small">
+                                    <span class="mr-2">
+                                        <i class="fas fa-circle text-primary"></i> Website
+                                    </span>
+                                    <span class="mr-2">
+                                        <i class="fas fa-circle text-success"></i> Social Media
+                                    </span>
+                                    <span class="mr-2">
+                                        <i class="fas fa-circle text-info"></i> Referral
+                                    </span>
+                                    <span class="mr-2">
+                                        <i class="fas fa-circle text-warning"></i> Email
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Leads & Properties -->
+                <div class="row">
+                    <!-- Recent Leads -->
+                    <div class="col-lg-6 mb-4">
+                        <div class="card">
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">Recent Leads</h6>
+                                <a href="#" class="btn btn-sm btn-primary">View All</a>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover" id="recentLeadsTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Contact</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Leads will be loaded via API -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Featured Properties -->
+                    <div class="col-lg-6 mb-4">
+                        <div class="card">
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">Featured Properties</h6>
+                                <a href="#" class="btn btn-sm btn-primary">View All</a>
+                            </div>
+                            <div class="card-body">
+                                <div class="row" id="featuredProperties">
+                                    <!-- Properties will be loaded via API -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="row">
+                    <div class="col-12 mb-4">
+                        <div class="card">
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">Recent Activity</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="activity-feed" id="activityFeed">
+                                    <!-- Activities will be loaded via API -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <footer class="pt-3 mt-4 text-muted border-top">
+                    © <script>document.write(new Date().getFullYear())</script> PriceRiley.co.uk - CRM Dashboard
+                </footer>
+            </main>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- DataTables -->
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    
+    <!-- Moment.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // Initialize charts and data when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize DataTable
+            $('#recentLeadsTable').DataTable({
+                responsive: true,
+                paging: false,
+                searching: false,
+                info: false
+            });
+            
+            // Traffic and Leads Chart
+            const trafficLeadsCtx = document.getElementById('trafficAndLeadsChart').getContext('2d');
+            const trafficLeadsChart = new Chart(trafficLeadsCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [
+                        {
+                            label: 'Website Visitors',
+                            data: [12500, 19000, 15000, 22000, 25000, 28000, 30000, 32000, 29000, 33000, 38000, 42000],
+                            backgroundColor: 'rgba(52, 152, 219, 0.05)',
+                            borderColor: 'rgba(52, 152, 219, 1)',
+                            pointBackgroundColor: 'rgba(52, 152, 219, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(52, 152, 219, 1)',
+                            pointRadius: 3,
+                            pointHoverRadius: 5,
+                            borderWidth: 2,
+                            fill: true,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'Leads Generated',
+                            data: [120, 180, 150, 220, 250, 280, 300, 320, 290, 330, 380, 420],
+                            backgroundColor: 'rgba(231, 76, 60, 0.05)',
+                            borderColor: 'rgba(231, 76, 60, 1)',
+                            pointBackgroundColor: 'rgba(231, 76, 60, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(231, 76, 60, 1)',
+                            pointRadius: 3,
+                            pointHoverRadius: 5,
+                            borderWidth: 2,
+                            fill: true,
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: 'Website Visitors'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return value >= 1000 ? value/1000 + 'k' : value;
+                                }
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'Leads Generated'
+                            },
+                            grid: {
+                                drawOnChartArea: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.datasetIndex === 0) {
+                                        label += context.parsed.y.toLocaleString() + ' visitors';
+                                    } else {
+                                        label += context.parsed.y.toLocaleString() + ' leads';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Lead Sources Chart
+            const leadSourcesCtx = document.getElementById('leadSourcesChart').getContext('2d');
+            const leadSourcesChart = new Chart(leadSourcesCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Website Form', 'Social Media', 'Referral', 'Email Campaign'],
+                    datasets: [{
+                        data: [55, 25, 15, 5],
+                        backgroundColor: ['#3498db', '#2ecc71', '#9b59b6', '#f39c12'],
+                        hoverBackgroundColor: ['#2980b9', '#27ae60', '#8e44ad', '#e67e22'],
+                        hoverBorderColor: "rgba(234, 236, 244, 1)",
+                    }],
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.label + ': ' + context.raw + '%';
+                                }
+                            }
+                        },
+                        legend: {
+                            display: false
+                        }
+                    },
+                    cutout: '75%',
+                },
+            });
+
+            // Load dashboard data
+            loadDashboardData();
+            
+            // Set up periodic refresh
+            setInterval(loadDashboardData, 300000); // Refresh every 5 minutes
+        });
+
+        // Load data from APIs
+        function loadDashboardData() {
+            // Make API calls to your Flask backend
+            fetch('/api/dashboard-data')
+                .then(response => response.json())
+                .then(data => {
+                    // Update stats cards
+                    document.getElementById('totalVisitors').textContent = data.websiteStats.totalVisitors.toLocaleString();
+                    document.getElementById('newLeads').textContent = data.leads.newLeads.toLocaleString();
+                    document.getElementById('appointments').textContent = data.leads.appointments.toLocaleString();
+                    document.getElementById('conversionRate').textContent = data.leads.conversionRate + '%';
+                    
+                    // Load recent leads
+                    let leadsHtml = '';
+                    data.recentLeads.forEach(lead => {
+                        let statusClass = '';
+                        if (lead.status === 'New') statusClass = 'lead-status-new';
+                        else if (lead.status === 'Follow-up') statusClass = 'lead-status-followup';
+                        else if (lead.status === 'Converted') statusClass = 'lead-status-converted';
+                        else if (lead.status === 'Lost') statusClass = 'lead-status-lost';
+                        
+                        leadsHtml += `
+                            <tr>
+                                <td>${lead.name}</td>
+                                <td>${lead.phone || lead.email}</td>
+                                <td><span class="badge rounded-pill ${statusClass}">${lead.status}</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                    $('#recentLeadsTable tbody').html(leadsHtml);
+                    
+                    // Load featured properties
+                    let propertiesHtml = '';
+                    data.featuredProperties.forEach(property => {
+                        propertiesHtml += `
+                            <div class="col-md-6 mb-3">
+                                <div class="card h-100">
+                                    <img src="${property.image}" class="card-img-top property-img" alt="${property.title}">
+                                    <div class="card-body">
+                                        <h6 class="card-title">${property.title}</h6>
+                                        <p class="card-text text-muted small mb-1">
+                                            <i class="fas fa-map-marker-alt"></i> ${property.location}
+                                        </p>
+                                        <p class="card-text text-danger fw-bold mb-0">
+                                            £${property.price.toLocaleString()}
+                                        </p>
+                                    </div>
+                                    <div class="card-footer bg-transparent">
+                                        <button class="btn btn-sm btn-outline-primary w-100">
+                                            View Details
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    document.getElementById('featuredProperties').innerHTML = propertiesHtml;
+                    
+                    // Load recent activity
+                    let activityHtml = '';
+                    data.recentActivity.forEach(activity => {
+                        activityHtml += `
+                            <div class="mb-3 d-flex">
+                                <div class="mr-3 flex-shrink-0">
+                                    <i class="fas ${activity.icon} text-${activity.type}"></i>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <div class="small text-muted">${moment(activity.timestamp).fromNow()}</div>
+                                    ${activity.message}
+                                    ${activity.user ? `<span class="badge bg-light text-dark">${activity.user}</span>` : ''}
+                                </div>
+                            </div>
+                        `;
+                    });
+                    document.getElementById('activityFeed').innerHTML = activityHtml;
+                })
+                .catch(error => {
+                    console.error('Error loading dashboard data:', error);
+                    alert('Failed to load dashboard data. Please try again later.');
+                });
+        }
+
+        // Update chart timeframe
+        function updateChartTimeframe(timeframe) {
+            // Here you would typically make an API call to get data for the selected timeframe
+            // For now, we'll just show an alert
+            alert('Chart timeframe updated to show ' + timeframe + ' data. In a real implementation, this would fetch new data from the server.');
+        }
+    </script>
+</body>
+</html>
