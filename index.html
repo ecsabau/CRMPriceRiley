@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PriceRiley CRM Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gray-50">
+  <nav class="bg-blue-700 text-white p-4 shadow-lg">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">PriceRiley CRM</h1>
+      <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+        Generate AI Report
+      </button>
+    </div>
+  </nav>
+  <div class="container mx-auto p-6">
+    <h2 class="text-xl font-semibold mb-4">Add New Lead</h2>
+    <form class="bg-white p-6 rounded-lg shadow-lg mb-8 max-w-lg mx-auto">
+      <input
+        type="text"
+        placeholder="Name"
+        class="border border-gray-300 p-3 mb-4 w-full rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <input
+        type="email"
+        placeholder="Email"
+        class="border border-gray-300 p-3 mb-4 w-full rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <textarea
+        placeholder="Details (e.g., Interested in bulk purchase)"
+        class="border border-gray-300 p-3 mb-4 w-full rounded h-24 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      ></textarea>
+      <button
+        type="submit"
+        class="bg-blue-500 text-white p-3 rounded w-full hover:bg-blue-600"
+      >
+        Add Lead
+      </button>
+    </form>
+
+    <h2 class="text-xl font-semibold mb-4">Your Leads</h2>
+    <input
+      type="text"
+      placeholder="Search leads by name or email..."
+      class="border border-gray-300 p-3 mb-4 w-full max-w-md rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+    <div class="bg-white rounded-lg shadow-lg overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">Name</th>
+            <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">Email</th>
+            <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">Score</th>
+            <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">Summary</th>
+            <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <!-- Sample data (static) -->
+          <tr class="hover:bg-gray-50">
+            <td class="px-6 py-4 whitespace-nowrap">John Doe</td>
+            <td class="px-6 py-4 whitespace-nowrap">john@example.com</td>
+            <td class="px-6 py-4 whitespace-nowrap">85</td>
+            <td class="px-6 py-4">Interested in bulk purchase.</td>
+            <td class="px-6 py-4 flex space-x-2">
+              <button class="text-blue-500 hover:text-blue-700">Edit</button>
+              <button class="text-red-500 hover:text-red-700">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="text-xl font-semibold mt-8 mb-4">Lead Score Analytics</h2>
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+      <img src="https://via.placeholder.com/600x300?text=Lead+Score+Chart" alt="Lead Score Chart" class="w-full h-64 object-cover" />
+    </div>
+
+    <h2 class="text-xl font-semibold mt-8 mb-4">AI Sales Forecast Report</h2>
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+      <p class="text-gray-700">Sample report: Based on current leads, expect 10% growth in sales next quarter.</p>
+    </div>
+  </div>
+</body>
+</html>
