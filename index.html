@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PriceRiley CRM Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .sidebar {
+      width: 250px;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      background-color: #1e293b;
+      color: white;
+      padding-top: 20px;
+    }
+    .main-content {
+      margin-left: 250px;
+      padding: 20px;
+    }
+    .metric-card {
+      background-color: white;
+      border-left: 4px solid;
+      padding: 20px;
+      text-align: center;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .metric-card:nth-child(1) { border-left-color: #93c5fd; }
+    .metric-card:nth-child(2) { border-left-color: #ef4444; }
+    .metric-card:nth-child(3) { border-left-color: #3b82f6; }
+    .metric-card:nth-child(4) { border-left-color: #f59e0b; }
+    .chart-placeholder {
+      height: 300px;
+      background-color: #f3f4f6;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #6b7280;
+    }
+    .section {
+      display: none;
+    }
+    .section.active {
+      display: block;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans">
+  <div class="flex">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="px-6 py-4 text-xl font-bold">PriceRiley</div>
+      <nav class="mt-6">
+        <a href="#" class="block px-6 py-2 text-white bg-blue-800 rounded-md" onclick="showSection('dashboard')">Dashboard</a>
+        <a href="#" class="block px-6 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md" onclick="showSection('properties')">Properties</a>
+        <a href="#" class="block px-6 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md" onclick="showSection('leads')">Leads</a>
+        <a href="#" class="block px-6 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md" onclick="showSection('appointments')">Appointments</a>
+        <a href="#" class="block px-6 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md" onclick="showSection('analytics')">Analytics</a>
+        <a href="#" class="block px-6 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md" onclick="showSection('campaigns')">Campaigns</a>
+        <a href="#" class="block px-6 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md" onclick="showSection('settings')">Settings</a>
+      </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Dashboard Section -->
+      <div id="dashboard" class="section active">
+        <div class="flex justify-between items-center mb-6">
+          <h1 class="text-2xl font-semibold">CRM Dashboard</h1>
+          <div class="space-x-2">
+            <button class="text-gray-500 hover:text-gray-700"><span class="material-icons">download</span> Export</button>
+            <button class="text-gray-500 hover:text-gray-700"><span class="material-icons">print</span> Print</button>
+            <select class="border rounded p-1">
+              <option>Last 30 days</option>
+              <option>Last 60 days</option>
+              <option>Last 90 days</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Metrics -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+          <div class="metric-card">
+            <p class="text-gray-600">WEBSITE VISITORS</p>
+            <h2 class="text-3xl font-bold">0</h2>
+            <span class="material-icons">people</span>
+          </div>
+          <div class="metric-card">
+            <p class="text-gray-600">NEW LEADS</p>
+            <h2 class="text-3xl font-bold">0</h2>
+            <span class="material-icons">person_add</span>
+          </div>
+          <div class="metric-card">
+            <p class="text-gray-600">APPOINTMENTS</p>
+            <h2 class="text-3xl font-bold">0</h2>
+            <span class="material-icons">event</span>
+          </div>
+          <div class="metric-card">
+            <p class="text-gray-600">CONVERSION RATE</p>
+            <h2 class="text-3xl font-bold">0%</h2>
+            <span class="material-icons">check_circle</span>
+          </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          <div class="bg-white p-4 rounded-lg shadow-md">
+            <h3 class="text-lg font-semibold mb-2">Website Traffic & Lead Conversion</h3>
+            <div class="chart-placeholder">Chart Placeholder (Website Visitors & Leads Generated)</div>
+          </div>
+          <div class="bg-white p-4 rounded-lg shadow-md">
+            <h3 class="text-lg font-semibold mb-2">Lead Sources</h3>
+            <div class="chart-placeholder">Chart Placeholder (Website, Social Media, Referral, Email)</div>
+          </div>
+        </div>
+
+        <!-- Tables -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="bg-white p-4 rounded-lg shadow-md">
+            <div class="flex justify-between items-center mb-2">
+              <h3 class="text-lg font-semibold">Recent Leads</h3>
+              <button class="bg-blue-500 text-white px-4 py-1 rounded">View All</button>
+            </div>
+            <table class="w-full text-left">
+              <thead>
+                <tr class="border-b">
+                  <th class="px-4 py-2">Name</th>
+                  <th class="px-4 py-2">Contact</th>
+                  <th class="px-4 py-2">Status</th>
+                  <th class="px-4 py-2">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="px-4 py-2" colspan="4">No data available in table</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="bg-white p-4 rounded-lg shadow-md">
+            <div class="flex justify-between items-center mb-2">
+              <h3 class="text-lg font-semibold">Featured Properties</h3>
+              <button class="bg-blue-500 text-white px-4 py-1 rounded">View All</button>
+            </div>
+            <table class="w-full text-left">
+              <thead>
+                <tr class="border-b">
+                  <th class="px-4 py-2">Name</th>
+                  <th class="px-4 py-2">Contact</th>
+                  <th class="px-4 py-2">Status</th>
+                  <th class="px-4 py-2">Action</th>
+              </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="px-4 py-2" colspan="4">No data available in table</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Properties Section -->
+      <div id="properties" class="section">
+        <h1 class="text-2xl font-semibold mb-6">Properties</h1>
+        <div class="bg-white p-4 rounded-lg shadow-md">
+          <p>Placeholder for Properties management (e.g., list of properties with details).</p>
+        </div>
+      </div>
+
+      <!-- Leads Section -->
+      <div id="leads" class="section">
+        <h1 class="text-2xl font-semibold mb-6">Leads</h1>
+        <div class="bg-white p-4 rounded-lg shadow-md">
+          <table class="w-full text-left">
+            <thead>
+              <tr class="border-b">
+                <th class="px-4 py-2">Name</th>
+                <th class="px-4 py-2">Contact</th>
+                <th class="px-4 py-2">Status</th>
+                <th class="px-4 py-2">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="px-4 py-2" colspan="4">No data available in table</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Appointments Section -->
+      <div id="appointments" class="section">
+        <h1 class="text-2xl font-semibold mb-6">Appointments</h1>
+        <div class="bg-white p-4 rounded-lg shadow-md">
+          <p>Placeholder for Appointments schedule (e.g., list of upcoming appointments).</p>
+        </div>
+      </div>
+
+      <!-- Analytics Section -->
+      <div id="analytics" class="section">
+        <h1 class="text-2xl font-semibold mb-6">Analytics</h1>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="bg-white p-4 rounded-lg shadow-md">
+            <h3 class="text-lg font-semibold mb-2">Website Traffic</h3>
+            <div class="chart-placeholder">Chart Placeholder</div>
+          </div>
+          <div class="bg-white p-4 rounded-lg shadow-md">
+            <h3 class="text-lg font-semibold mb-2">Lead Conversion</h3>
+            <div class="chart-placeholder">Chart Placeholder</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Campaigns Section -->
+      <div id="campaigns" class="section">
+        <h1 class="text-2xl font-semibold mb-6">Campaigns</h1>
+        <div class="bg-white p-4 rounded-lg shadow-md">
+          <p>Placeholder for Campaigns management (e.g., list of marketing campaigns).</p>
+        </div>
+      </div>
+
+      <!-- Settings Section -->
+      <div id="settings" class="section">
+        <h1 class="text-2xl font-semibold mb-6">Settings</h1>
+        <div class="bg-white p-4 rounded-lg shadow-md">
+          <p>Placeholder for Settings (e.g., user profile, notifications).</p>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="mt-6 text-center text-gray-500 text-sm">
+        © 2025 PriceRiley.co.uk - CRM Dashboard
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    function showSection(sectionId) {
+      // Hide all sections
+      document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+      });
+      // Show the selected section
+      document.getElementById(sectionId).classList.add('active');
+      // Update active button style in sidebar
+      document.querySelectorAll('nav a').forEach(link => {
+        link.classList.remove('bg-blue-800', 'text-white');
+        link.classList.add('text-gray-300');
+        if (link.getAttribute('onclick').includes(sectionId)) {
+          link.classList.remove('text-gray-300');
+          link.classList.add('bg-blue-800', 'text-white');
+        }
+      });
+    }
+  </script>
+</body>
+</html>
